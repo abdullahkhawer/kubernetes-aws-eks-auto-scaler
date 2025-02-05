@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-02-05
+
+### 🐛 Bug Fixes
+
+- Exclude scale-down and scale-up Kubernetes CronJobs from both actions.
+
 ## [1.0.0] - 2025-02-05
 
 ### 🚀 Features

@@ -114,9 +114,10 @@ def scale_down(k8s_resources, aws_asg_resources, exclude_k8s_resources, exclude_
             print(f"StatefulSet '{statefulset.metadata.name}' in namespace '{statefulset.metadata.namespace}' has already scaled down to zero.")
 
     for cronjob in all_cronjobs:
-        print(f"Suspending CronJob '{cronjob.metadata.name}' in namespace '{cronjob.metadata.namespace}'")
-        cronjob.spec.suspend = True
-        batch_client.patch_namespaced_cron_job(cronjob.metadata.name, cronjob.metadata.namespace, cronjob)
+        if cronjob.metadata.namespace != "kubernetes-aws-eks-auto-scaler":
+            print(f"Suspending CronJob '{cronjob.metadata.name}' in namespace '{cronjob.metadata.namespace}'")
+            cronjob.spec.suspend = True
+            batch_client.patch_namespaced_cron_job(cronjob.metadata.name, cronjob.metadata.namespace, cronjob)
 
     # Store K8s data
     if k8s_scaling_data:
@@ -184,9 +185,10 @@ def scale_up():
     print("Resuming suspended CronJobs...")
     cronjobs = batch_client.list_cron_job_for_all_namespaces().items
     for cronjob in cronjobs:
-        print(f"Resuming CronJob '{cronjob.metadata.name}' in namespace '{cronjob.metadata.namespace}'")
-        cronjob.spec.suspend = False
-        batch_client.patch_namespaced_cron_job(cronjob.metadata.name, cronjob.metadata.namespace, cronjob)
+        if cronjob.metadata.namespace != "kubernetes-aws-eks-auto-scaler":
+            print(f"Resuming CronJob '{cronjob.metadata.name}' in namespace '{cronjob.metadata.namespace}'")
+            cronjob.spec.suspend = False
+            batch_client.patch_namespaced_cron_job(cronjob.metadata.name, cronjob.metadata.namespace, cronjob)
 
 def main():
     print("Starting script execution...")
