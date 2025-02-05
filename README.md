@@ -26,10 +26,12 @@ This tool automates the scaling of Kubernetes deployments, statefulsets, and cro
 
 ## Upcoming Features
 
+- **API throttling**:
+  - Throttling around AWS API and Kubernetes API will be handled so that the request can be sent again after a delay.
 - **Docker Container**:
-  - A Dockerfile will be added so that the tool can be executed inside a Docker container directly.
+  - A Dockerfile will be added so that the tool can be executed inside a Docker container directly. Also, requirements file for Python libraries like boto3 and Kubernetes will be added as well.
 - **Helm Chart**:
-  - A Helm chart will be added so that the tool can be executed via a CronJob on the Kubernetes cluster. This will only work if at least one of the EKS node groups have been excluded. Terraform code will be added for its deployment.
+  - A Helm chart will be added so that the tool can be executed via a CronJob on the Kubernetes cluster. This will only work if at least one of the EKS node groups have been excluded. Terraform code will be added for its deployment. Other resources like AWS IAM role for Kubernetes ServiceAccount, Kubernetes ServiceAccount itself, Kubernetes ClusterRole and Kubernetes ClusterRoleBinding will be created as well.
 - **AWS Lambda function with AWS EventBridge Rule (AWS CloudWatch Event)**:
   - A Terraform code will be added to deploy this tool on an AWS Lambda function along with AWS EventBridge Rule (AWS CloudWatch Event) so that it can be executed automatically on the basis of a schedule defined using Cron. This will work even if all EKS node groups have been scaled down.
 
